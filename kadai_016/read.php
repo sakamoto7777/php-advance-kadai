@@ -1,5 +1,5 @@
 <?php
-$dsn = 'mysql:dbname=php_db_app;host=localhost;charset=utf8mb4';
+$dsn = 'mysql:dbname=php_book_app;host=localhost;charset=utf8mb4';
 $user = 'root';
 // MAMPを利用しているMacユーザーの方は、''ではなく'root'を代入してください
 $password = 'root';
@@ -23,10 +23,11 @@ try {
 
   // orderパラメータの値によってSQL文を変更する    
   if ($order === 'desc') {
-    $sql_select = 'SELECT * FROM products WHERE product_name LIKE :keyword ORDER BY updated_at DESC';
+    $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at DESC';
   } else {
-    $sql_select = 'SELECT * FROM products WHERE product_name LIKE :keyword ORDER BY updated_at ASC';
+    $sql_select = 'SELECT * FROM books WHERE book_name LIKE :keyword ORDER BY updated_at ASC';
   }
+  
 
   // SQL文を用意する
   $stmt_select = $pdo->prepare($sql_select);
@@ -42,7 +43,7 @@ try {
   $stmt_select->execute();
 
   // SQL文の実行結果を配列で取得する
-  $products = $stmt_select->fetchAll(PDO::FETCH_ASSOC);
+  $books = $stmt_select->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
   exit($e->getMessage());
 }
@@ -70,7 +71,7 @@ try {
     </nav>
   </header>
   <main>
-    <article class="products">
+    <article class="books">
       <h1>書籍一覧</h1>
       <?php
       // （書籍品の登録・編集・削除後）messageパラメータの値を受け取っていれば、それを表示する
@@ -78,7 +79,7 @@ try {
         echo "<p class='success'>{$_GET['message']}</p>";
       }
       ?>
-      <div class="products-ui">
+      <div class="books-ui">
         <div>
           <a href="read.php?order=desc&keyword=<?= $keyword ?>">
             <img src="images/desc.png" alt="降順に並び替え" class="sort-img">
@@ -93,7 +94,7 @@ try {
         </div>
         <a href="create.php" class="btn">書籍登録</a>
       </div>
-      <table class="products-table">
+      <table class="books-table">
         <tr>
           <th>書籍コード</th>
           <th>書籍名</th>
@@ -105,16 +106,16 @@ try {
         </tr>
         <?php
         // 配列の中身を順番に取り出し、表形式で出力する
-        foreach ($products as $product) {
+        foreach ($books as $book) {
           $table_row = "
                          <tr>
-                         <td>{$product['product_code']}</td>
-                         <td>{$product['product_name']}</td>
-                         <td>{$product['price']}</td>
-                         <td>{$product['stock_quantity']}</td>
-                         <td>{$product['vendor_code']}</td>        
-                         <td><a href='update.php?id={$product['id']}'><img src='images/edit.png' alt='編集' class='edit-icon'></a></td>                       
-                         <td><a href='delete.php?id={$product['id']}'><img src='images/delete.png' alt='削除' class='delete-icon'></a></td>                       
+                         <td>{$book['book_code']}</td>
+                         <td>{$book['book_name']}</td>
+                         <td>{$book['price']}</td>
+                         <td>{$book['stock_quantity']}</td>
+                         <td>{$book['genre_code']}</td>        
+                         <td><a href='update.php?id={$book['id']}'><img src='images/edit.png' alt='編集' class='edit-icon'></a></td>                       
+                         <td><a href='delete.php?id={$book['id']}'><img src='images/delete.png' alt='削除' class='delete-icon'></a></td>                       
                          </tr>                    
                      ";
           echo $table_row;
