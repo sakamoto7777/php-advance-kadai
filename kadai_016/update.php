@@ -129,17 +129,17 @@ if (isset($_GET['id'])) {
           <label for="stock_quantity">在庫数</label>
           <input type="number" id="stock_quantity" name="stock_quantity" value="<?= $book['stock_quantity'] ?>" min="0" max="100000000" required>
 
-          <label for="genre_code">ジャンル先コード</label>
-          <select id="genre_code" name="genre_code" required>
+          <label for="vendor_code">ジャンル先コード</label>
+          <select id="vendor_code" name="vendor_code" required>
             <option disabled selected value>選択してください</option>
             <?php
             // 配列の中身を順番に取り出し、セレクトボックスの選択肢として出力する
-            foreach ($genre_codes as $genre_code) {
-              // もし変数$genre_codeが書籍のジャンル先コードの値と一致していれば、selected属性をつけて初期値にする
-              if ($genre_code === $book['genre_code']) {
-                echo "<option value='{$genre_code}' selected>{$genre_code}</option>";
+            foreach ($vendor_codes as $vendor_code) {
+              // もし変数$vendor_codeが書籍のジャンル先コードの値と一致していれば、selected属性をつけて初期値にする
+              if ($vendor_code === $book['vendor_code']) {
+                echo "<option value='{$vendor_code}' selected>{$vendor_code}</option>";
               } else {
-                echo "<option value='{$genre_code}'>{$genre_code}</option>";
+                echo "<option value='{$vendor_code}'>{$vendor_code}</option>";
               }
             }
             ?>
